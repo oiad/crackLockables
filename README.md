@@ -46,7 +46,7 @@ This will allow players to crack codes on doors, safes and lockboxes
 
 4. Copy the <code>scripts</code> folder from the repo to your mission folder.
 
-5. This relies on my companion functions on my github [Here](https://github.com/oiad/scripts/companionFunctions) and my <code>fnc_log</code> function [Here](https://github.com/oiad/scripts/tree/master/fnc_log)
+5. This relies on my companion functions on my github [Here](https://github.com/oiad/scripts/tree/master/companionFunctions) and my <code>fnc_log</code> function [Here](https://github.com/oiad/scripts/tree/master/fnc_log)
 
 6. Download the <code>stringTable.xml</code> file linked below from the [Community Localization GitHub](https://github.com/oiad/communityLocalizations) and copy it to your mission folder, it is a community based localization file and contains translations for major community mods including this one.
 
