@@ -15,8 +15,8 @@ server_crackLockables = {
 
 	_typeOf = typeOf _object;
 
-	_isSafe = _typeOf == "VaultStorageLocked";
-	_isLockBox = _typeOf == "LockBoxStorageLocked";
+	_isSafe = _typeOf in ["VaultStorageLocked","VaultStorage2Locked","TallSafeLocked"];
+	_isLockBox = _typeOf in ["LockboxStorageLocked","LockboxStorage2Locked","LockboxStorageWinterLocked","LockboxStorageWinter2Locked"];
 	_isStorage = (_isSafe || _isLockBox);
 	_isDoor = _typeOf in DZE_DoorsLocked;
 
@@ -28,10 +28,10 @@ server_crackLockables = {
 	_name = if (alive _player) then {name _player} else {"unknown player"};
 	_playerUID = getPlayerUID _player;
 
-	_type = switch (true) do {
-		case _isSafe: {"Safe"};
-		case _isLockBox: {"Lockbox"};
-		case _isDoor: {"Door"};
+	_type = call {
+		if (_isSafe) exitWith {"Safe"};
+		if (_isLockBox) exitWith {"Lockbox"};
+		if (_isDoor) exitWith {"Door"};
 	};
 
 	if !(_isStorage || _isDoor) exitWith {diag_log "server_crackLockables called with invalid storage/door object!"};
@@ -44,19 +44,9 @@ server_crackLockables = {
 	_plotOwner = _player call fnc_nearPlot;
 	if (_isStorage) then {
 		_inventory = format ["inventory: %1",[_object getVariable ["WeaponCargo",[]], _object getVariable ["MagazineCargo",[]], _object getVariable ["BackpackCargo",[]]] call fnc_parseInventory];
-		if (Z_singleCurrency) then {_coins = _object getVariable [Z_MoneyVariable,0];};
-
-		[_player,_object,0] call server_handleSafeGear;
-	} else {
-		_inventory = "";
-		_object removeAllMPEventHandlers "MPKilled";
-		_object removeAllEventHandlers "Killed";
-		_object removeAllEventHandlers "HandleDamage";
-		_object removeAllEventHandlers "GetIn";
-		_object removeAllEventHandlers "GetOut";
-		[_object,"killed",false,false,"SERVER",dayz_serverKey] call server_updateObject;
+		if (Z_singleCurrency) then {_coins = _object getVariable ["cashMoney",0];};
 	};
-	_message = format ["%1 (%2) cracked %3 (code: %4) @%5 %6 %7nearby: %8 %10%owner PUID: %11 %9", _name, _playerUID, _type, _charID, mapGridPosition _player, _pos, if (_isStorage) then {format ["coins: %1 ",_coins call BIS_fnc_numberText]} else {""}, [_player,600] call fnc_nearBy, _inventory, if (_plotOwner != "None") then {format ["plot owner: %1 ",_plotOwner]} else {""},_ownerPUID];
+	_message = format ["%1 (%2) cracked %3 (code: %4) @%5 %6 %7 nearby: %8 %10%owner PUID: %11 %9", _name, _playerUID, _type, _charID, mapGridPosition _player, _pos, if (_isStorage) then {format ["coins: %1 ",_coins call BIS_fnc_numberText]} else {""}, [_player,600] call fnc_nearBy, _inventory, if (_plotOwner != "None") then {format ["plot owner: %1 ",_plotOwner]} else {""},_ownerPUID];
 	diag_log _message;
 	["crackLockables",_message] call fnc_Log;
 };
