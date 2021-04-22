@@ -70,11 +70,6 @@ if ([_chance] call fn_chance) then {
 		} else {
 			[player,(getPosATL player),20,"safeopen"] spawn fnc_alertZombies;
 		};
-	
-		PVDZE_handleSafeGear = [player,_cursorTarget,0,_code,dayz_authKey];
-		publicVariableServer "PVDZE_handleSafeGear";
-
-		waitUntil {!isNil "dze_waiting"};
 	};	
 	if (_isDoor) then {
 		[player,(getPosATL player),20,"combo_unlock"] spawn fnc_alertZombies;
@@ -93,18 +88,18 @@ if ([_chance] call fn_chance) then {
 				_cursorTarget animate ["Open_doorR",1];	
 			};
 			_cursorTarget animate ["Open_door",1];
-		};		
-		
-		PVDZE_handleSafeGear = [player,_cursorTarget,5,_code];
-		publicVariableServer "PVDZE_handleSafeGear";
+		};
 	};
 
 	[localize "STR_CL_CRL_SUCCESS",1] call dayz_rollingMessages;
 	
-	sk_crackLockables = [player,_cursorTarget,dayz_authKey];
+	sk_crackLockables = [player,_cursorTarget,dayz_authKey,""];
 	publicVariableServer "sk_crackLockables";
 } else {
 	[localize "STR_CL_CRL_FAIL",1] call dayz_rollingMessages;
+	
+	sk_crackLockables = [player,_cursorTarget,dayz_authKey,"fail"];
+	publicVariableServer "sk_crackLockables";
 };
 
 dayz_actionInProgress = false;
