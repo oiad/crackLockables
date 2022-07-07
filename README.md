@@ -1,4 +1,5 @@
-# crackLockables
+# crackLockables for Epoch 1.0.7.1+
+
 This will allow players to crack codes on doors, safes and lockboxes
 
 * Discussion URL: https://epochmod.com/forum/topic/47288-release-crack-lockables-updated-for-107/
